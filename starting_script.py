@@ -49,7 +49,7 @@ else:
     sys.exit("public ip pool name not defined.")
 
 print "Creating instance ... "
-instance = nova.servers.create(name="Grupp6", image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name='DIN_NYCKEL_HAR')
+instance = nova.servers.create(name="Grupp6", image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name='albins2')
 inst_status = instance.status
 print "waiting for 10 seconds.. "
 time.sleep(10)
