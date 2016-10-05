@@ -19,9 +19,9 @@
 # Path to GMSH binary
 GMSHBIN="/Applications/Gmsh.app/Contents/MacOS/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="geo"
+GEODIR="/Users/isakkabir/Dokument/CloudComputing/"
 # Path to dir where msh files will be stored
-MSHDIR="msh"
+MSHDIR="/Users/isakkabir/Dokument/CloudComputing/"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
