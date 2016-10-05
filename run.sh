@@ -19,9 +19,9 @@
 # Path to GMSH binary
 GMSHBIN="/Applications/Gmsh.app/Contents/MacOS/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="/Users/Rebecca/Documents/Datormoln och tillämpningar/Airfoil"
+GEODIR="/Users/Rebecca/Documents/Airfoil"
 # Path to dir where msh files will be stored
-MSHDIR="/Users/Rebecca/Documents/Datormoln och tillämpningar/Airfoil"
+MSHDIR="/Users/Rebecca/Documents/Airfoil"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
