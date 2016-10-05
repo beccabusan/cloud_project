@@ -17,11 +17,11 @@
 #
 # EDIT FOLLOWING VARIABLES
 # Path to GMSH binary
-GMSHBIN="/Applications/Gmsh.app/Contents/MacOS/gmsh"
+GMSHBIN="/home/albin/gmsh-2.13.3-svn-Linux/bin/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="changethis"
+GEODIR="/home/albin/testing/geo"
 # Path to dir where msh files will be stored
-MSHDIR="andthis"
+MSHDIR="/home/albin/testing/msh"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
