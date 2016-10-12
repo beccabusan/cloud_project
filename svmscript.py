@@ -23,9 +23,9 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
 
 	for file in os.listdir(mshfilepath):
 		print file		
-		mshfilename = "/home/ubuntu/cloud_project/msh/"+file
+		mshfilename =  "/home/ubuntu/cloud_project/msh/"+file
 		print mshfilename
-		xmlfilename = ((mshfilename).split('.'))[0] + ".xml"
+		xmlfilename = "/home/ubuntu/xml_files/"+((file).split('.'))[0] + ".xml"
 		print xmlfilename
               	convert = subprocess.call(['dolfin-convert', mshfilename, xmlfilename])
 	
