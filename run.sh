@@ -15,13 +15,12 @@
 # EXAMPLE
 # ./runme.sh 0 30 10 200 3
 #
-# EDIT FOLLOWING VARIABLES
-# Path to GMSH binary
-GMSHBIN="/home/albin/gmsh-2.13.3-svn-Linux/bin/gmsh"
+# EDIT FOLLOWING VARIABL# Path to GMSH binar
+GMSHBIN="/usr/bin/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="/home/albin/testing/geo"
+GEODIR="/home/ubuntu/cloud_project/geo"
 # Path to dir where msh files will be stored
-MSHDIR="/home/albin/testing/msh"
+MSHDIR="/home/ubuntu/cloud_project/msh"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
@@ -45,7 +44,6 @@ for i in `ls $GEODIR`; do
   mshfile="$(echo $i|sed -e 's/geo/msh/')";
   $GMSHBIN -v 0 -nopopup -2 -o $MSHDIR/r0$mshfile $GEODIR/$i;
 done
-
 if [ "$n_levels" -gt "0" ]; then
   for i in `seq 1 $n_levels`; do
     pm=r$(($i-1))a;
