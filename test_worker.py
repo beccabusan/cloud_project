@@ -1,5 +1,6 @@
-import subprocess
-import os
+from celery import Celery
+celery=Celery()
+celery.config_from_object('masterconf')
+from svmscript import work
+work.delay(0,30,10,100,1)
 
-
-pid = subprocess.call('/home/ubuntu/./run.sh 0 30 10 200 3', shell=True)
