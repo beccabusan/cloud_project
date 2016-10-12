@@ -16,15 +16,12 @@
 # ./runme.sh 0 30 10 200 3
 #
 # EDIT FOLLOWING VARIABLES
-# Path to GMSH binary
-GMSHBIN="/Users/Rebecca/cloud_project"
-#"/Applications/Gmsh.app/Contents/MacOS/gmsh"
+# Path to GMSH binar
+GMSHBIN="/home/albin/gmsh-2.13.3-svn-Linux/bin/gmsh"
 # Path to dir where geo files will be stored
-GEODIR="/Users/Rebecca/cloud_project"
-#"geo"
+GEODIR="/home/albin/testing/geo"
 # Path to dir where msh files will be stored
-MSHDIR="/Users/Rebecca/cloud_project"
-#"msh"
+MSHDIR="/home/albin/testing/msh"
 # NACA four digit airfoil (typically NACA0012)
 NACA1=0
 NACA2=0
