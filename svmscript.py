@@ -59,8 +59,12 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                 meanlift = (liftsum/(i-2))
                 print 'Meandrag: ' + str(meandrag)
                 print 'Meanlift: ' + str(meanlift)
-                result_angle_dir = {'Angle': angle, 'Drag': meandrag, 'Lift': meanlift}
+                result_angle_dir = {'Angle': int(angle), 'Drag': meandrag, 'Lift': meanlift}
                 result_all_angles.append(result_angle_dir)
-        for line in result_all_angles:
+        
+        result_all_angles_sorted = sorted(result_all_angles, key=lambda k: k['Angle'])
+        
+        for line in result_all_angles_sorted:
                 print line
-        return result_all_angles
+
+        return result_all_angles_sorted
