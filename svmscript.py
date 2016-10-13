@@ -54,7 +54,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                         if i>20:
                                 dragsum+=float(row[1])
                                 liftsum+=float(row[2])
-                        
+                        i+=1
                 meandrag = (dragsum/i)
                 meanlift = (liftsum/i)
                 print 'Meandrag: ' + str(meandrag)
