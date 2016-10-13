@@ -62,7 +62,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                 result_angle_dir = {'Angle': int(angle), 'Drag': meandrag, 'Lift': meanlift}
                 result_all_angles.append(result_angle_dir)
         
-        result_all_angles_sorted = sorted(result_all_angles, key=lambda k: k['Angle'])
+        result_all_angles_sorted = sorted(result_all_angles, key=lambda k: k['Lift'], reverse=True)
         
         for line in result_all_angles_sorted:
                 print line
