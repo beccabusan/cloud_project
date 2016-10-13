@@ -8,5 +8,7 @@ rm -rf /home/ubuntu/cloud_project/geo
 mkdir /home/ubuntu/cloud_project/msh
 mkdir /home/ubuntu/cloud_project/geo
 
+rm -rf /home/ubuntu/cloud_project/results
+
 
 python /home/ubuntu/cloud_project/test_worker.py
