@@ -32,7 +32,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
 		xmlfilename = xmlfilepath+((file).split('.'))[0] + ".xml"
 		print "Converting "+ mshfilename +" into "+ xmlfilename
               	convert = subprocess.call(['dolfin-convert', mshfilename, xmlfilename])
-                break
+
 	result_all_angles = []
 	for file in os.listdir(xmlfilepath):
 		str_angle = re.search('a(.+?)n', file)
@@ -41,7 +41,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                 print "This is the angle: "+ angle
 
 		airfoil_bin_path = "/home/ubuntu/cloud_project/navier_stokes_solver/./airfoil"
-#		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','1', homepath+"/xml_files/"+file])
+		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','0.2', homepath+"/xml_files/"+file])
                 
                 print 'Starting some calculations on angle: '+ angle
                 dlfile = open(resultpath,'r')
@@ -55,10 +55,12 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                                 dragsum+=float(row[1])
                                 liftsum+=float(row[2])
                         i+=1
-                meandrag = (dragsum/i)
-                meanlift = (liftsum/i)
+                meandrag = (dragsum/(i-2))
+                meanlift = (liftsum/(i-2))
                 print 'Meandrag: ' + str(meandrag)
                 print 'Meanlift: ' + str(meanlift)
                 result_angle_dir = {'Angle': angle, 'Drag': meandrag, 'Lift': meanlift}
-                
-                return result_angle_dir
+                result_all_angles.append(result_angle_dir)
+        for line in result_all_angles:
+                print line
+        return result_all_angles
