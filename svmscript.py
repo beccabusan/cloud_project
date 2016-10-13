@@ -1,9 +1,13 @@
 from celery import Celery
+import re
 import os, sys, subprocess, time 
 from os import environ as env
-geofilepath = "/home/ubuntu/cloud_project/geo"
-mshfilepath = "/home/ubuntu/cloud_project/msh"
-xmlfilepath = "/home/ubuntu/xml_files/"
+
+homepath = '/home/ubuntu/'
+geofilepath = homepath+"cloud_project/geo"
+mshfilepath = homepath+"cloud_project/msh"
+xmlfilepath = homepath+"xml_files/" 
+resultpath= homepath+"cloud_project/results/drag_ligt.m"
 
 
 username = "slavevm1"
@@ -17,7 +21,7 @@ app = Celery('fenicstask', backend=mainurl, broker=mainurl)
 
 @app.task
 def work(a_start, a_stop, n_angles, n_nodes, n_levels):
-#	strcmd = "./run.sh " + a_start + " " + a_stop + " " + n_angles + " " + n_nodes + " " + n_levels
+        
 	meshfiles = subprocess.call(['./run.sh',str(a_start),str(a_stop),str(n_angles),str(n_nodes),str(n_levels)])
 	
 	print "Starting to convert msh files"
@@ -28,12 +32,33 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
 		xmlfilename = xmlfilepath+((file).split('.'))[0] + ".xml"
 		print "Converting "+ mshfilename +" into "+ xmlfilename
               	convert = subprocess.call(['dolfin-convert', mshfilename, xmlfilename])
-	
-	
+                break
+	result_all_angles = []
 	for file in os.listdir(xmlfilepath):
-		
+		str_angle = re.search('a(.+?)n', file)
+                if str_angle:
+                        angle = str_angle.group(1)
+                print "This is the angle: "+ angle
+
 		airfoil_bin_path = "/home/ubuntu/cloud_project/navier_stokes_solver/./airfoil"
-		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','1', file])
-	
-		
-	
+#		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','1', homepath+"/xml_files/"+file])
+                
+                print 'Starting some calculations on angle: '+ angle
+                dlfile = open(resultpath,'r')
+                dragsum=liftsum=0
+                i=1
+                for line in dlfile:
+                        row = (line).split()
+                        if(i%10):
+                                print 'Doing calculations...'
+                        if i>20:
+                                dragsum+=float(row[1])
+                                liftsum+=float(row[2])
+                        
+                meandrag = (dragsum/i)
+                meanlift = (liftsum/i)
+                print 'Meandrag: ' + str(meandrag)
+                print 'Meanlift: ' + str(meanlift)
+                result_angle_dir = {'Angle': angle, 'Drag': meandrag, 'Lift': meanlift}
+                
+                return result_angle_dir
