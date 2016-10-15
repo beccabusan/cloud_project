@@ -41,7 +41,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                 print "This is the angle: "+ angle
 
 		airfoil_bin_path = "/home/ubuntu/cloud_project/navier_stokes_solver/./airfoil"
-		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','0.2', homepath+"/xml_files/"+file])
+		get_airfoil_result = subprocess.call([airfoil_bin_path, '10', '0.0001','10.','1', homepath+"/xml_files/"+file])
                 
                 print 'Starting some calculations on angle: '+ angle
                 dlfile = open(resultpath,'r')
@@ -52,8 +52,8 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                         if(i%10):
                                 print 'Doing calculations...'
                         if i>20:
-                                dragsum+=float(row[1])
-                                liftsum+=float(row[2])
+                                dragsum+=float(row[2])
+                                liftsum+=float(row[1])
                         i+=1
                 meandrag = (dragsum/(i-2))
                 meanlift = (liftsum/(i-2))
@@ -62,7 +62,7 @@ def work(a_start, a_stop, n_angles, n_nodes, n_levels):
                 result_angle_dir = {'Angle': int(angle), 'Drag': meandrag, 'Lift': meanlift}
                 result_all_angles.append(result_angle_dir)
         
-        result_all_angles_sorted = sorted(result_all_angles, key=lambda k: k['Lift'], reverse=True)
+        result_all_angles_sorted = sorted(result_all_angles, key=lambda k: k['Angle'])
         
         for line in result_all_angles_sorted:
                 print line
