@@ -1,4 +1,5 @@
 #!/bin/bash
+#########TODO
 source ~/source_this.sh
 python ~/cloud_project/starting_script.py
 FLOATING_IP=`cat ~/cloud_project/floating_ip.txt`
