@@ -28,6 +28,16 @@ celery = make_celery(app)
 def add(x, y):
     return x + y
 
+@app.route("/calcajax")
+def calc():
+    def generate():
+        x = 0
+        while x < 100:
+            print x
+            x = x + 10
+            time.sleep(0.4)
+            yield "data:" + str(x) + "\n\n"
+    return Response(generate(), mimetype="text/event-stream")
 
 @app.route("/home")
 def home():
@@ -40,12 +50,10 @@ def calculating():
         stop_angle = request.form['stop_angle']
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
-
 @app.route("/test/result/<task_id>")
 def show_result(task_id):
     retval = add.AsyncResult(task_id).get()
     return repr(retval)
-
 
 if __name__ == "__main__":
     port = int(environ.get("PORT", 5000))
