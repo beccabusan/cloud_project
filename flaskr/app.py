@@ -30,7 +30,7 @@ def add(x, y):
 
 
 @app.route("/home")
-def hello_world():
+def home():
     return render_template('index.html')
 
 @app.route("/calculating", methods=['post'])
@@ -38,29 +38,14 @@ def calculating():
     if request.method == 'POST':
         start_angle = request.form['start_angle']
         stop_angle = request.form['stop_angle']
-    else:
-        start_angle = "0"
-        stop_angle = "0"
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
-@app.route("/readtweets")
-def run_tweets():
-    res = count_tweets.apply_async()
-    context ={"id": res.task_id}
-    #result = {"read_tweets"}
-    goto = "{}".format(context["id"])
-    return redirect(url_for('tweet_result', task_id=res.task_id))
 
 @app.route("/test/result/<task_id>")
 def show_result(task_id):
     retval = add.AsyncResult(task_id).get()
     return repr(retval)
 
-@app.route("/readtweets/result/<task_id>")
-def tweet_result(task_id):
-    retval = count_tweets.AsyncResult(task_id).get()
-    result = repr(retval)
-    return render_template('result.html', result=retval)
 
 if __name__ == "__main__":
     port = int(environ.get("PORT", 5000))
