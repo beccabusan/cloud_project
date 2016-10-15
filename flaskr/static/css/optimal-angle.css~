@@ -1,0 +1,29 @@
+
+body{
+    background-color: #303030;
+}
+
+.jumbotron {
+    background-image: url('/static/img/airplane_3-wallpaper.jpg');
+    background-position: 0% 75%;
+    background: contain;
+    background-size: cover;
+    padding: 8em;
+}
+
+.container{
+    padding: 0 0 0 0;
+    
+}
+
+.container .jumbotron{
+    padding-bottom: 0em;
+    padding-top: 10em;
+    text-align: left;
+}
+
+.round {border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	background: rgba(255, 255, 255, 0.2);
+       }

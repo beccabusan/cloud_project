@@ -1,0 +1,67 @@
+
+body{
+    background-image: url('/static/img/wallhaven-airplane.jpg');
+    background-color: #303030;
+    font-family: 'Oswald', sans-serif;
+    
+}
+
+.jumbotron {
+    background-image: url('/static/img/airplane_3-wallpaper.jpg');
+    background-position: 0% 75%;
+    background: contain;
+    background-size: cover;
+    padding: 8em;
+    min-height: 40 em;
+}
+
+.container{
+    
+    margin-top: 10em;
+    
+}
+
+.container .jumbotron{
+    padding-bottom: 0em;
+    padding-top: 10em;
+    padding-left: 0;
+    padding-right: 10em;
+    text-align: left;
+    min-height: 20em;
+}
+
+.round {border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	background: rgba(255, 255, 255, 0.6);
+       }
+
+h1{
+    font-family: 'Oswald', sans-serif;
+    color: #555e6d;
+    font-size: 4em;
+    margin-bottom: 1em;
+    margin-top: 0.3em;
+}
+
+h2{
+    font-size: 1.4em;
+    margin-top: 3 em;
+    margin-bottom: 1em;
+}
+
+.btn-info{
+    color: #ffffff;
+    background-color: #45628C;
+    margin-top: 1.2em;
+    margin-bottom: 0;
+}
+
+.btn-info:hover{
+    color: #45628C;
+    background-color:#84c3ff; 
+}
+
+.form-control .angle{
+    width: 0.5em;
+}

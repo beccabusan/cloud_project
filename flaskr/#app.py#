@@ -1,0 +1,67 @@
+from __future__ import absolute_import
+from os import path, environ
+import json
+from flask import Flask, Blueprint, render_template, abort, jsonify, request, session, redirect, url_for
+import settings
+from celery import Celery
+import sys
+
+
+app = Flask(__name__)
+app.config.from_object(settings)
+
+def make_celery(app):
+    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+    class ContextTask(TaskBase):
+        abstract = True
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    return celery
+
+celery = make_celery(app)
+
+@celery.task(name="tasks.add")
+def add(x, y):
+    return x + y
+
+
+@app.route("/home")
+def hello_world():
+    return render_template('index.html')
+
+@app.route("/calculating", methods=['post'])
+def calculating():
+    if request.method == 'POST':
+        start_angle = request.form.get['start_angle']
+        stop_angle = request.form['stop_angle']
+    else:
+        start_angle = "0"
+        stop_angle = "0"
+    return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
+
+@app.route("/readtweets")
+def run_tweets():
+    res = count_tweets.apply_async()
+    context ={"id": res.task_id}
+    #result = {"read_tweets"}
+    goto = "{}".format(context["id"])
+    return redirect(url_for('tweet_result', task_id=res.task_id))
+
+@app.route("/test/result/<task_id>")
+def show_result(task_id):
+    retval = add.AsyncResult(task_id).get()
+    return repr(retval)
+
+@app.route("/readtweets/result/<task_id>")
+def tweet_result(task_id):
+    retval = count_tweets.AsyncResult(task_id).get()
+    result = repr(retval)
+    return render_template('result.html', result=retval)
+
+if __name__ == "__main__":
+    port = int(environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
