@@ -63,8 +63,8 @@ def work(xmlfilename, samples=10, viscosity=0.0001, speed=10., time=1):
 
 	meandrag = (dragsum/(i-2))
 	meanlift = (liftsum/(i-2))
-	result_angle_dir = {'Angle': int(angle), 'Drag': meandrag, 'Lift': meanlift}
-	print result_angle_dir
- 	return result_angle_dir
+	result_angle_dict = {'Angle': int(angle), 'Drag': meandrag, 'Lift': meanlift}
+	print result_angle_dict
+ 	return result_angle_dict
         
 
