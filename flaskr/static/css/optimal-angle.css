@@ -1,6 +1,10 @@
 
 body{
-    background-image: url('/static/img/wallhaven-airplane.jpg');
+    background-image: url('/static/img/wallhaven-airplane.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     background-color: #303030;
     font-family: 'Oswald', sans-serif;
     
