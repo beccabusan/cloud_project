@@ -12,6 +12,7 @@ flavor = "c1.small"
 private_net = 'g2015034-net_2'
 floating_ip_pool_name = 'public'
 floating_ip = None
+slave_name = str(sys.argv[1])
 
 loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],username=env['OS_USERNAME'],password=env['OS_PASSWORD'],project_name=env['OS_PROJECT_NAME'],user_domain_name=env['OS_USER_DOMAIN_NAME'],project_domain_name=env['OS_PROJECT_DOMAIN_NAME'])
@@ -21,6 +22,7 @@ sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
 print "user authorization completed."
 
+###TODO CHANGE THIS IMAGE TO grupp6_real_real
 image = nova.images.find(name="ubuntu 14.04")
 flavor = nova.flavors.find(name=flavor)
 
@@ -43,13 +45,16 @@ secgroups = [secgroup.id]
 
 #floating_ip = nova.floating_ips.create(nova.floating_ip_pools.list()[0].name)
 
-if floating_ip_pool_name != None: 
-    floating_ip = nova.floating_ips.create(floating_ip_pool_name)
-else: 
-    sys.exit("public ip pool name not defined.")
+
+###DONT NEED Floating IP
+#if floating_ip_pool_name != None: 
+#    floating_ip = nova.floating_ips.create(floating_ip_pool_name)
+#else: 
+#    sys.exit("public ip pool name not defined.")
 
 print "Creating instance ... "
-instance = nova.servers.create(name="Grupp6", image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name='albins2')
+
+instance = nova.servers.create(name="grupp6_slave-"+ slave_name, image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name='albins2')
 inst_status = instance.status
 print "waiting for 10 seconds.. "
 time.sleep(10)
@@ -62,11 +67,11 @@ while inst_status == 'BUILD':
 
 print "Instance: "+ instance.name +" is in " + inst_status + "state"
 
-if floating_ip.ip != None: 
-    instance.add_floating_ip(floating_ip)
-    with open("~/cloud_project/floating_ip.txt","w") as f:
-        f.write(floating_ip.ip)
-    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", floating IP attached " + floating_ip.ip
+#if floating_ip.ip != None: 
+#   instance.add_floating_ip(floating_ip)
+#    with open("~/cloud_project/floating_ip.txt","w") as f:
+#        f.write(floating_ip.ip)
+print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", no floating IP attached " #+ floating_ip.ip
 
-else:
-    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", floating IP missing"
+#else:
+#    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", floating IP missing"
