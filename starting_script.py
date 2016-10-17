@@ -13,10 +13,16 @@ private_net = 'g2015034-net_2'
 floating_ip_pool_name = 'public'
 floating_ip = None
 slave_name = str(sys.argv[1])
+master_ip = str(sys.argv[2])
+master_host = "mastervhost"
 
 loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],username=env['OS_USERNAME'],password=env['OS_PASSWORD'],project_name=env['OS_PROJECT_NAME'],user_domain_name=env['OS_USER_DOMAIN_NAME'],project_domain_name=env['OS_PROJECT_DOMAIN_NAME'])
 
+#how to create custom userdata - export the variables inside each slave vm
+userdata="#cloud-config\nruncmd:\n  - export $USER_ID = slavevm"+slave_name+
+			"\n  - export $USER_PWD = slavepwd" + slave_name + "\n  - export $MASTER_IP = "+master_ip+
+			"\n  - export $MASTER_HOST = " + master_host + "\n  - celery --purge -A scriptname worker -l info\n"
 
 sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
