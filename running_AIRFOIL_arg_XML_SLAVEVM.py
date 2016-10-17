@@ -10,11 +10,10 @@ mshfilepath = homepath + "cloud_project/msh"
 xmldir = homepath + "xml_files/" 
 resultpath= os.getcwd() + "/results/drag_ligt.m"
 
-
-username = "slavevm1"
-userpwd = "slavepwd1"
-masterip = "127.0.0.1"
-mastervhost = "mastervhost"
+username = env['USER_NAME']
+userpwd = env['USER_PWD']
+masterip = env['MASTER_IP']
+mastervhost = env['MASTER_HOST'] 
 
 mainurl = "amqp://" + username + ":" + userpwd + "@" + masterip + "/" + mastervhost
 
