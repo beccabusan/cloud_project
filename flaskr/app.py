@@ -6,9 +6,25 @@ import settings
 from celery import Celery
 import sys
 import time
+import subprocess
+from running_AIRFOIL_arg_XML_SLAVEVM import work
 
 app = Flask(__name__)
 app.config.from_object(settings)
+tasks = []
+numdone = 0
+
+def checkifanymore():
+    numdonenow = 0
+    if tasks!=None:
+        for task in tasks:
+            if task.ready()==True:
+                numdonenow = numdonenow + 1
+    if numdone<numdonenow:
+        numdone = numdonenow
+        return True
+    else:
+        return False
 
 def make_celery(app):
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
@@ -39,6 +55,21 @@ def calc():
             yield "data:" + str(x) + "\n\n"
     return Response(generate(), mimetype="text/event-stream")
 
+@app.route("/task_ajax")
+def taskajax():
+    def generate():
+        x = 0
+        yield "data:" + str(x) + "\n\n"
+        while numdone!=len(tasks):
+            time.sleep(0.1)
+            if checkifanymore()==True:
+                x = numdone
+                yield "data:" + str(x) + "\n\n"
+    if numdone!=len(tasks):            
+        return Response(generate(), mimetype="text/event-stream")    
+    else:
+        return redirect('/home')    
+
 @app.route("/home")
 def home():
     return render_template('index.html')
@@ -46,8 +77,17 @@ def home():
 @app.route("/calculating", methods=['post'])
 def calculating():
     if request.method == 'POST':
+        numvms = 3
         start_angle = request.form['start_angle']
         stop_angle = request.form['stop_angle']
+        num_angles = request.form['n_angles']
+        num_levels = request.form['n_levels']
+        num_nodes = request.form['n_nodes']
+        proc1 = Popen(['python','start_x_slavevms_MASTERVM.py',numvms])
+        proc2 = Popen(['python','generate_mesh_convert_xml_MASTERVM.py', 'a_start='+str(start_angle) ,
+                                'a_stop='+str(stop_angle) , 'n_angles='+str(num_angles), 'n_levels='+str(num_levels), 'n_nodes='+num_nodes)
+        exit_codes = [p.wait() for p in proc1, proc2]
+        tasks = Popen(['python','mastersendwork.py', proc2])
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
 @app.route("/test/result/<task_id>")
