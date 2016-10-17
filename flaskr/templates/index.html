@@ -95,25 +95,58 @@
 	<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
 	  <form action="http://130.238.29.62:5000/calculating" method="Post">
-	    <div class="form-group">
-	   
+
+	    
+	    <div class = "row">
+	      <div class = "col-xs-3">
+		<label for="start_angle">Start Angle</label>
+	      </div>
 	      <div class="col-xs-2">
-	      <label for="start_angle">Start Angle</label>
-	      <input type="number" required min="0" max="180" name="start_angle" class="form-control angle" id="start_angle">
-	   
+		<div class="form-group">
+		  <input type="number" required min="0" max="180" name="start_angle" class="form-control angle" id="start_angle">
+		</div>
 	      </div>
 	    </div>
-	   
-	    <div class="col-xs-2">
-	    <div class="form-group">
-	      <label for="stop_angle">Stop Angle {{start_angle}}</label>
-	      <input type="number" required min="0" max="180" name="stop_angle" class="form-control angle" id="stop_angle">
-	   
-	    </div>
-	    </div>
-	   
+
+	    <div class = "row">
+	      <div class = "col-xs-3">
+		<label for="stop_angle">Stop Angle</label>
+	      </div>
+	      <div class="col-xs-2">
+		<div class="form-group">
+		  <input type="number" required min="0" max="180" name="stop_angle" class="form-control angle" id="stop_angle">
+		</div>
+	      </div>
 	      <div class="col-md-4 col-md-offset-2">
-	    <input type="submit" class="btn btn-info" value="Calculate">
+		<input type="submit" class="btn btn-info" value="Calculate">
+	      </div>
+	      </div>
+	      <div class = "row">
+		<div class = "col-xs-3">
+		  <label for="stop_angle">Number of Angles</label>
+		</div>
+		<div class="col-xs-2">
+		  <div class="form-group">
+
+		    <input type="number" required  min="1" max="400" name="n_angles" class="form-control angle" id="n_angles">
+		  </div>
+		</div>
+	      </div>
+	      
+	      <div class = "row">
+		<div class = "col-xs-3">
+		  <label for="stop_angle">Refinement steps</label>
+		</div>
+		<div class="col-xs-2">
+		  <div class="form-group">
+		    
+		    <input type="number" required min="0" max="3" name="refinement" class="form-control angle" id="refinement">
+		  </div>
+		</div>
+	      
+	      
+	 
+	 
 	        </form>
 	 
 	  </div>

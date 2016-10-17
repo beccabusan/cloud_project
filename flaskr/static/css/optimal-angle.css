@@ -1,6 +1,6 @@
 
 body{
-    background-image: url('/static/img/wallhaven-airplane.jpg') no-repeat center center fixed;
+    background-image: url('/static/img/wallhaven-airplane.jpg');
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -37,7 +37,7 @@ body{
 .round {border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
-	background: rgba(255, 255, 255, 0.6);
+	background: rgba(255, 255, 255, 0.7);
        }
 
 h1{
@@ -57,7 +57,7 @@ h2{
 .btn-info{
     color: #ffffff;
     background-color: #45628C;
-    margin-top: 1.2em;
+    margin-top: 0em;
     margin-bottom: 0;
 }
 
@@ -68,4 +68,9 @@ h2{
 
 .form-control .angle{
     width: 0.5em;
+}
+
+.col-xs-3{
+    text-align: left;
+    margin-left: 0;
 }
