@@ -9,26 +9,32 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Clean Blog</title>
+    <title>Optimal Angle of Attack</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Theme CSS -->
     <link href="/static/css/clean-blog.css" rel="stylesheet">
+    <link href="/static/css/optimal-angle.css" rel="stylesheet">
+
 
     <!-- Custom Fonts -->
     <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-   <!-- <script type="text/javascript" src="/static/js/functions.js"></script>-->
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    
+    <!-- <script type="text/javascript" src="/static/js/functions.js"></script>-->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+    <script src="http://code.highcharts.com/highcharts.js"></script>    
 </head>
 
 <body>
@@ -37,9 +43,9 @@
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
-            
-            
-            
+            <div class="navbar-header page-scroll">
+             
+            </div>
 
             <!-- Collect the nav links, forms, and other content for toggling
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -65,58 +71,120 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('http://ping.cdn.appadvice.com/wp-content/appadvice-v2-media/2016/03/lots-of-tweets_4e843e587214cec0df38333c4d03d933.jpg')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>Count the Pronouns!</h1>
-			<a href="http://130.238.29.62:5000/readtweets" class="btn btn-default" role="button">Go Again!</a>
-                    </div>
+<!--   <div class="container">
+        <div class="jumbotron">
+   <!-- <header class="intro-header" style="background-image: url('/static/img/airplane_3-wallpaper.jpg')">-->
+          <!--  <div class="row">
+                <div class="col-lg-12 col-lg-offset-2 col-md-12 col-md-offset-1">
+
+                        <h1>Optimal Angle of Attack</h1>
+
                 </div>
             </div>
-        </div>
-    </header>
-
+	</div>
+   </div> -->
     <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-preview">
-                   
-                        <h2 class="post-title">
-                            Result:
-                        </h2>
-                        <h3 class="post-subtitle">
-                          <table cellspacing = "400">
-			    {% for key, value in result.items() %}
-			    <tr>
-			      <th> {{ key }} </th>
-			      
-			      <td> {{ value }} </td>
-			      
-			    </tr>
-			    {% endfor %}
-			    </table>
-                        </h3>
-                   
+    <div class="container round">
+      <div class="row">
+	<div class="col-lg-12 col-lg-offset-2 col-md-12 col-md-offset-1">
 
-                </div>
-               
-                <hr>
-               
+	  <h1>Optimal Angle of Attack</h1>
+
+	</div>
+      </div>
+
+      <div class="row">
+            <div class="col-lg-5 col-lg-offset-3 col-md-7 col-md-offset-2">
+	      <h3>
+		Optimal angle found at:
+		</h3>
             </div>
-        </div>
+	    <div class"col-lg-3 col-md-4">
+	      <h3>
+		{{optimal_angle}}º
+	      </h3>
+	              </div>
+      </div>
+      <div class="row">
+	<div class="col-lg-5 col-lg-offset-3 col-md-7 col-md-offset-2">
+	  <h3>
+	   With Lift Force:
+	  </h3>
+	</div>
+	<div class"col-lg-3 col-md-4">
+	  <h3>
+	  {{lift_at_optimal_angle}}
+	  </h3>
+	</div>
+	      </div>
+      <div class="row">
+	<div id="result_chart" class="result_chart">
+	</div>
+	<div class="row">
+	  <div id="test_chart" class="result_chart">
+	            </div>
+      </div>
+      <hr>
     </div>
-
-    <hr>
-
+<script>
+  $(function () {
+  var myChart = Highcharts.chart('result_chart', {
+  chart: {
+  type: 'line'
+  },
+  title: {
+  text: 'Lift Force denpending on Angle'
+  },
+  xAxis: {
+  title: {
+  text: 'Angle in degrees'
+    },
+ categories: {{angles}}
+  },
+  yAxis: {
+  title: {
+  text: 'Lift Force'
+  }
+  },
+  series: [{
+  name: 'Most recent computation',
+  data: {{lift_forces}}
+  }]
+  });
+  });
+     </script>
+<script>
+  var options = {
+  chart: {
+  renderTo: 'test_chart',
+  type: 'bar'
+  },
+  series: [{
+  name: 'Jane',
+  data: [1, 0, 4]
+  }]
+  title: {
+  text: 'Fruit Consumption'
+  },
+  xAxis: {
+  categories: ['Apples', 'Bananas', 'Oranges']
+  },
+  yAxis: {
+  title: {
+  text: 'Fruit eaten'
+  }
+  },
+  };
+  $(document).ready(function() {
+  var chart = new Highcharts.Chart('test_chart',options);
+  });
+</script>
     <!-- Footer -->
-    <footer>
+   <!-- <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                   <!-- <ul class="list-inline text-center">
+                <!--    <ul class="list-inline text-center">
                         <li>
                             <a href="#">
                                 <span class="fa-stack fa-lg">
@@ -142,12 +210,12 @@
                             </a>
                         </li>
                     </ul>
--->
+                   <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
                 </div>
             </div>
         </div>
     </footer>
-
+-->
     <!-- jQuery -->
     <script src="/static/vendor/jquery/jquery.min.js"></script>
 

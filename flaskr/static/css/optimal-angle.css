@@ -74,3 +74,12 @@ h2{
     text-align: left;
     margin-left: 0;
 }
+
+.result_chart{
+    margin-left: 2.5em;
+    margin-right: 2.5em;
+    border-radius: 1.5em;
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    background-color: rgba(255, 255, 255, 0.7);
+}

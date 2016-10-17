@@ -7,7 +7,7 @@ from celery import Celery
 import sys
 import time
 import subprocess
-from running_AIRFOIL_arg_XML_SLAVEVM import work
+#from running_AIRFOIL_arg_XML_SLAVEVM import work
 
 app = Flask(__name__)
 app.config.from_object(settings)
@@ -85,11 +85,20 @@ def calculating():
         num_nodes = request.form['n_nodes']
         proc1 = Popen(['python','start_x_slavevms_MASTERVM.py',numvms])
         proc2 = Popen(['python','generate_mesh_convert_xml_MASTERVM.py', 'a_start='+str(start_angle) ,
-                                'a_stop='+str(stop_angle) , 'n_angles='+str(num_angles), 'n_levels='+str(num_levels), 'n_nodes='+num_nodes)
+                                'a_stop='+str(stop_angle) , 'n_angles='+str(num_angles), 'n_levels='+str(num_levels), 'n_nodes='+num_nodes])
         exit_codes = [p.wait() for p in proc1, proc2]
         tasks = Popen(['python','mastersendwork.py', proc2])
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
+
+@app.route("/result")
+def result():
+    angles=[0,1,2]
+    lift_forces=[5,8,9]
+    optimal_angle=2
+    lift_at_optimal_angle=3
+    return render_template('result.html', lift_forces=lift_forces, angles=angles, optimal_angle=optimal_angle, lift_at_optimal_angle=lift_at_optimal_angle)
+                      
 @app.route("/test/result/<task_id>")
 def show_result(task_id):
     retval = add.AsyncResult(task_id).get()
