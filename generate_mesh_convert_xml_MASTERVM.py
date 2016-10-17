@@ -27,6 +27,8 @@ def generate_convert(a_start="0", a_stop='30', n_angles='5', n_nodes='5', n_leve
 	##Generating the .msh and .geo files
 	meshfiles = subprocess.call(['./run.sh',str(a_start),str(a_stop),str(n_angles),str(n_nodes),str(n_levels)])
 
+	all_xml_filename = []
+
 	###Converting the .msh to .xml
 	print "Starting to convert msh files"		
 	for file in os.listdir(mshfilepath):		
@@ -36,9 +38,14 @@ def generate_convert(a_start="0", a_stop='30', n_angles='5', n_nodes='5', n_leve
 		print "Converting "+ mshfilename +" into "+ xmlfilename
         	convert = subprocess.call(['dolfin-convert', mshfilename, xmlfilename])
 
+		###Maybe wrong here, might want to use xmlname instead of xmlfilename under here
 		with open(xmlfilename, 'r') as xmlfiletoUpload:
         		swift_con.put_object(container_name, xmlname,
                                         contents= xmlfiletoUpload.read(),
                                         content_type='text/plain')
 
-generate_convert()
+		all_xml_filename.append(xmlname)				
+
+			
+	return all_xml_filename
+	
