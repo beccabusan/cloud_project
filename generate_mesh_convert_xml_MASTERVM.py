@@ -25,7 +25,7 @@ def generate_convert(a_start="0", a_stop='30', n_angles='5', n_nodes='5', n_leve
 	
 	
 	##Generating the .msh and .geo files
-	meshfiles = subprocess.call(['./run.sh',str(a_start),str(a_stop),str(n_angles),str(n_nodes),str(n_levels)])
+	meshfiles = subprocess.call(['/home/ubuntu/cloud_project/./run.sh',str(a_start),str(a_stop),str(n_angles),str(n_nodes),str(n_levels)])
 
 	all_xml_filename = []
 

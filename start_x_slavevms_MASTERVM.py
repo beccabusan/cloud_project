@@ -10,7 +10,7 @@ if sys.argv[1:]:
 	while i <= number_of_vmslaves:
 		print "Iniated slave number: "+ str(i)
 		###TODO ADD USER DATA FOR EACH WORKER- CELERY SETUP
-		subprocess.call('python starting_script.py ' + str(i) + " " + str(masterip), shell=True)				
+		subprocess.call('python home/ubuntu/cloud_project/starting_script.py ' + str(i) + " " + str(masterip), shell=True)				
 		i += 1
 	
 
