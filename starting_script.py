@@ -20,7 +20,7 @@ loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],username=env['OS_USERNAME'],password=env['OS_PASSWORD'],project_name=env['OS_PROJECT_NAME'],user_domain_name=env['OS_USER_DOMAIN_NAME'],project_domain_name=env['OS_PROJECT_DOMAIN_NAME'])
 
 #how to create custom userdata - export the variables inside each slave vm
-userdata="#cloud-config\nruncmd:\n  - export USER_NAME = slavevm"+slave_name+"\n  - export USER_PWD = slavepwd" + slave_name + "\n  - export MASTER_IP = "+master_ip+"\n  - export MASTER_HOST = " + master_host + "\n  - cd /home/ubuntu/cloud_project\n - git pull\n - cd flaskr/\n - celery --purge -A running_AIRFOIL_arg_XML_SLAVEVM worker -l info\n"
+#userdata="export USER_NAME = slavevm"+slave_name+"\nexport USER_PWD = slavepwd" + slave_name + "\nexport MASTER_IP = "+master_ip+"\nexport MASTER_HOST = " + master_host + "\ncd /home/ubuntu/cloud_project\ngit pull\ncd flaskr/\ncelery --purge -A running_AIRFOIL_arg_XML_SLAVEVM worker -l info\n"
 
 sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
@@ -50,15 +50,16 @@ secgroups = [secgroup.id]
 
 
 ###DONT NEED Floating IP
-#if floating_ip_pool_name != None: 
-#    floating_ip = nova.floating_ips.create(floating_ip_pool_name)
-#else: 
-#    sys.exit("public ip pool name not defined.")
+if floating_ip_pool_name != None: 
+    floating_ip = nova.floating_ips.create(floating_ip_pool_name)
+else: 
+    sys.exit("public ip pool name not defined.")
 
 print "Creating instance ... "
 
-instance = nova.servers.create(name="grupp6_slave-"+ slave_name, image=image, flavor=flavor, userdata=userdata, nics=nics,security_groups=secgroups, key_name='albins2')
+instance = nova.servers.create(name="grupp6_slave-"+ slave_name, image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name='albins2')
 inst_status = instance.status
+
 print "waiting for 10 seconds.. "
 time.sleep(10)
 
@@ -70,11 +71,11 @@ while inst_status == 'BUILD':
 
 print "Instance: "+ instance.name +" is in " + inst_status + "state"
 
-#if floating_ip.ip != None: 
-#   instance.add_floating_ip(floating_ip)
-#    with open("~/cloud_project/floating_ip.txt","w") as f:
-#        f.write(floating_ip.ip)
-print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", no floating IP attached " #+ floating_ip.ip
+if floating_ip.ip != None: 
+   instance.add_floating_ip(floating_ip)
+    with open("/home/ubuntu/floating_ip.txt","w") as f:
+        f.write(floating_ip.ip)
+print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", no floating IP attached " + floating_ip.ip
 
 #else:
 #    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", floating IP missing"

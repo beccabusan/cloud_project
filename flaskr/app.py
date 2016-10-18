@@ -61,16 +61,17 @@ def calc():
 def taskajax():
     def generate():
         x = 0
+	print(numdone)
         yield "data:" + str(x) + "\n\n"
-        while numdone!=len(tasks):
+        while numdone<len(tasks):
             time.sleep(0.1)
             if checkifanymore()==True:
                 x = int(numdone/len(tasks))
                 yield "data:" + str(x) + "\n\n"
-    if numdone<len(tasks):            
-    	return Response(generate(), mimetype="text/event-stream")    
-    else:
-        return redirect('/result')    
+#    if numdone<len(tasks):            
+    return Response(generate(), mimetype="text/event-stream")    
+#    else:
+#        return redirect('/result')    
 
 @app.route("/home")
 def home():
@@ -89,6 +90,7 @@ def calculating():
         xml_files = generate_convert()#subprocess.Popen(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py'])
         print "PROC2: ", xml_files 
         tasks = send_task(xml_files)
+	print "LENGTH OF TASK: " + str(len(tasks))
 	print tasks
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
