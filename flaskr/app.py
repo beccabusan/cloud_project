@@ -3,6 +3,9 @@ from os import path, environ
 import json
 from flask import Flask, Blueprint, render_template, abort, jsonify, request, session, redirect, url_for, Response
 import settings
+from generate_mesh_convert_xml_MASTERVM import generate_convert
+from mastersendwork import send_task
+from start_x_slavevms_MASTERVM import start
 from celery import Celery
 import sys
 import time
@@ -82,12 +85,10 @@ def calculating():
         num_angles = request.form['n_angles']
         num_levels = request.form['n_levels']
         num_nodes = request.form['n_nodes']
-        proc1 = subprocess.Popen(['python','/home/ubuntu/cloud_project/start_x_slavevms_MASTERVM.py',str(numvms)])
-        proc2 = subprocess.check_output(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py',a_start=str(start_angle) ,
-                                         a_stop=str(stop_angle) , n_angles=str(num_angles), n_levels=str(num_levels), n_nodes=str(num_nodes)])
-        print "PROC2: ", proc2 
-        proc1.wait()
-        tasks = subprocess.check_output(['python','/home/ubuntu/cloud_project/flaskr/mastersendwork.py', str(proc2)])
+	start(str(numvms))	
+        xml_files = generate_convert()#subprocess.Popen(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py'])
+        print "PROC2: ", xml_files 
+        tasks = subprocess.check_output(['python','/home/ubuntu/cloud_project/flaskr/mastersendwork.py', str(xml_files)])
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
 
