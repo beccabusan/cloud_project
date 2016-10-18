@@ -13,7 +13,7 @@ resultpath= os.getcwd() + "/results/drag_ligt.m"
 username = env['USER_NAME']
 userpwd = env['USER_PWD']
 masterip = env['MASTER_IP']
-mastervhost = env['MASTER_HOST'] 
+mastervhost = env['MASTER_HOST']
 
 mainurl = "amqp://" + username + ":" + userpwd + "@" + masterip + "/" + mastervhost
 

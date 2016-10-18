@@ -3,9 +3,9 @@ from os import path, environ
 import json
 from flask import Flask, Blueprint, render_template, abort, jsonify, request, session, redirect, url_for, Response
 import settings
-from generate_mesh_convert_xml_MASTERVM import generate_convert
 from mastersendwork import send_task
 from start_x_slavevms_MASTERVM import start
+from generate_mesh_convert_xml_MASTERVM import generate_convert
 from celery import Celery
 import sys
 import time
@@ -65,12 +65,12 @@ def taskajax():
         while numdone!=len(tasks):
             time.sleep(0.1)
             if checkifanymore()==True:
-                x = numdone
+                x = int(numdone/len(tasks))
                 yield "data:" + str(x) + "\n\n"
-    #if numdone!=len(tasks):            
-    return Response(generate(), mimetype="text/event-stream")    
-    #else:
-    #    return redirect('/home')    
+    if numdone<len(tasks):            
+    	return Response(generate(), mimetype="text/event-stream")    
+    else:
+        return redirect('/result')    
 
 @app.route("/home")
 def home():
@@ -85,10 +85,11 @@ def calculating():
         num_angles = request.form['n_angles']
         num_levels = request.form['n_levels']
         num_nodes = request.form['n_nodes']
-	start(str(numvms))	
+	start(numvms)	
         xml_files = generate_convert()#subprocess.Popen(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py'])
         print "PROC2: ", xml_files 
-        tasks = subprocess.check_output(['python','/home/ubuntu/cloud_project/flaskr/mastersendwork.py', str(xml_files)])
+        tasks = send_task(xml_files)
+	print tasks
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
 
 
