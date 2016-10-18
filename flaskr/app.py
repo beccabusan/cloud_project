@@ -76,7 +76,7 @@ def home():
 @app.route("/calculating", methods=['post'])
 def calculating():
     if request.method == 'POST':
-        numvms = 3
+        numvms = 1
         start_angle = request.form['start_angle']
         stop_angle = request.form['stop_angle']
         num_angles = request.form['n_angles']
