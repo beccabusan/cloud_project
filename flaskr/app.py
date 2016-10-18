@@ -82,9 +82,9 @@ def calculating():
         num_angles = request.form['n_angles']
         num_levels = request.form['n_levels']
         num_nodes = request.form['n_nodes']
-        proc1 = subprocess.Popen(['python','start_x_slavevms_MASTERVM.py',str(numvms)])
-        proc2 = subprocess.check_output(['python','generate_mesh_convert_xml_MASTERVM.py', 'a_start='+str(start_angle) ,
-                                'a_stop='+str(stop_angle) , 'n_angles='+str(num_angles), 'n_levels='+str(num_levels), 'n_nodes='+str(num_nodes])
+        proc1 = subprocess.Popen(['python','../start_x_slavevms_MASTERVM.py',str(numvms)])
+        proc2 = subprocess.check_output(['python','../generate_mesh_convert_xml_MASTERVM.py', 'a_start='+str(start_angle) ,
+                                         'a_stop='+str(stop_angle) , 'n_angles='+str(num_angles), 'n_levels='+str(num_levels), 'n_nodes='+str(num_nodes)])
         proc1.wait()
         tasks = subprocess.check_output(['python','mastersendwork.py', str(proc2)])
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
