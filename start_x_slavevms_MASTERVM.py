@@ -4,7 +4,7 @@ import sys
 
 #def start_x_slavevms():
 if sys.argv[1:]:
-	masterip = subprocess.check_output(['curl','ipecho.net/plain'])
+	masterip = subprocess.check_output("ip route get 8.8.8.8 | awk '{print $NF; exit}'",shell=True)
 	number_of_vmslaves = int(sys.argv[1])
 	i=1
 	while i <= number_of_vmslaves:
@@ -13,9 +13,6 @@ if sys.argv[1:]:
 		subprocess.call('python starting_script.py ' + str(i) + " " + str(masterip), shell=True)				
 		i += 1
 	
-
-
-
 
 
 
