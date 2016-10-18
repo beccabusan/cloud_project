@@ -16,12 +16,12 @@ def generate_convert(a_start="0", a_stop='30', n_angles='5', n_nodes='5', n_leve
                                                key='grupp6',
                                                tenant_name='g2015034',
                                                auth_version='3',
-                                               os_options={'tenant_id':'74833650f49e4227b868610684b155f2' , 						       'region_name': 'UPPMAX'})
+                                               os_options={'tenant_id':'74833650f49e4227b868610684b155f2', 'region_name': 'UPPMAX'})
 
 	container_name = 'Grupp6_test'		
 
-	for data in swift_con.get_container(container_name)[1]:
-		swift_con.delete_object(container_name, data['name'])
+#	for data in swift_con.get_container(container_name)[1]:
+#		swift_con.delete_object(container_name, data['name'])
 	
 	
 	##Generating the .msh and .geo files

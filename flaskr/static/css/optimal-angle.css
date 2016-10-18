@@ -20,9 +20,9 @@ body{
 }
 
 .container{
-    
     margin-top: 10em;
-    
+margin-bottom: 10em;
+        min-height: 2em;
 }
 
 .container .jumbotron{
@@ -31,7 +31,8 @@ body{
     padding-left: 0;
     padding-right: 10em;
     text-align: left;
-    min-height: 20em;
+    min-height: 2em;
+max-height: 5em;
 }
 
 .round {border-radius: 10px;
@@ -43,13 +44,13 @@ body{
 h1{
     font-family: 'Oswald', sans-serif;
     color: #555e6d;
-    font-size: 4em;
+    font-size: 35px;
     margin-bottom: 1em;
     margin-top: 0.3em;
 }
 
 h2{
-    font-size: 1.4em;
+    font-size: 30px;
     margin-top: 3 em;
     margin-bottom: 1em;
 }
@@ -82,4 +83,7 @@ h2{
     margin-top: 2.5em;
     margin-bottom: 0.5em;
     background-color: rgba(255, 255, 255, 0.7);
+}
+ .headtitle{
+     text-align: center;
 }
