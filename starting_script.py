@@ -57,7 +57,7 @@ secgroups = [secgroup.id]
 
 print "Creating instance ... "
 
-instance = nova.servers.create(name="grupp6_slave-"+ slave_name, image=image, flavor=flavor, userdata=userdata, nics=nics,security_groups=secgroups, key_name='reos9181_c1')
+instance = nova.servers.create(name="grupp6_slave-"+ slave_name, image=image, flavor=flavor, userdata=userdata, nics=nics,security_groups=secgroups, key_name='albins2')
 inst_status = instance.status
 print "waiting for 10 seconds.. "
 time.sleep(10)

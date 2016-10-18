@@ -21,7 +21,7 @@ export OS_PROJECT_NAME="g2015034"
 
 # In addition to the owning entity (tenant), OpenStack stores the entity
 # performing the action as the **user**.
-export OS_USERNAME="reos9181"
+export OS_USERNAME="albins"
 
 # With Keystone you pass the keystone password.
 echo "Please enter your OpenStack Password: "
