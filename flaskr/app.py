@@ -64,10 +64,10 @@ def taskajax():
             if checkifanymore()==True:
                 x = numdone
                 yield "data:" + str(x) + "\n\n"
-    if numdone!=len(tasks):            
-        return Response(generate(), mimetype="text/event-stream")    
-    else:
-        return redirect('/home')    
+    #if numdone!=len(tasks):            
+    return Response(generate(), mimetype="text/event-stream")    
+    #else:
+    #    return redirect('/home')    
 
 @app.route("/home")
 def home():
