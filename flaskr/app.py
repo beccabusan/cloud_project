@@ -7,7 +7,6 @@ from celery import Celery
 import sys
 import time
 import subprocess
-from running_AIRFOIL_arg_XML_SLAVEVM import work
 
 app = Flask(__name__)
 app.config.from_object(settings)
