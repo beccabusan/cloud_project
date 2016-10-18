@@ -1,7 +1,7 @@
 import sys
 from celery import Celery 
 celery = Celery()
-celery.conf.update('settings')
+celery.config_from_object('settings')
 from running_AIRFOIL_arg_XML_SLAVEVM import work
 
 def main():
