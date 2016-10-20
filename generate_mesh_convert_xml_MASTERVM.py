@@ -12,8 +12,8 @@ xmlfilepath = homepath+"xml_files/"
 def generate_convert(a_start="0", a_stop='30', n_angles='5', n_nodes='5', n_levels='0'):
 	
 	swift_con = swiftclient.client.Connection(authurl='http://130.238.29.253:5000/v3',
-                                               user='',
-                                               key='',
+                                               user='albins',
+                                               key='grupp6',
                                                tenant_name='g2015034',
                                                auth_version='3',
                                                os_options={'tenant_id':'74833650f49e4227b868610684b155f2', 'region_name': 'UPPMAX'})
