@@ -23,8 +23,8 @@ app = Celery('fenicstask', backend=mainurl, broker=mainurl)
 def work(xmlfilename, samples=10, viscosity=0.0001, speed=10., time=1):
 			
 	swift_con = swiftclient.client.Connection(authurl='http://130.238.29.253:5000/v3',
-                                               user='albins',
-                                               key='grupp6',
+                                               user='',
+                                               key='',
                                                tenant_name='g2015034',
                                                auth_version='3',
                                                os_options={'tenant_id':'74833650f49e4227b868610684b155f2' , 'region_name': 'UPPMAX'})
