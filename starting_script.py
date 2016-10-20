@@ -73,8 +73,8 @@ print "Instance: "+ instance.name +" is in " + inst_status + "state"
 
 if floating_ip.ip != None: 
    instance.add_floating_ip(floating_ip)
-    with open("/home/ubuntu/floating_ip.txt","w") as f:
-        f.write(floating_ip.ip)
+   with open("/home/ubuntu/floating_ip.txt","w") as f:
+   	f.write(floating_ip.ip)
 print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", no floating IP attached " + floating_ip.ip
 
 #else:

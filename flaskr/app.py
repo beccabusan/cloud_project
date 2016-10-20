@@ -16,20 +16,15 @@ app.config.from_object(settings)
 tasks = []
 numdone = 0
 
-def checkifanymore():
+def checkhowmany():
     numdonenow = 0
-    if tasks!=None:
-        for task in tasks:
-            if task.ready()==True:
-                numdonenow = numdonenow + 1
-    if numdone<numdonenow:
-        numdone = numdonenow
-        return True
-    else:
-        return False
+    for task in tasks:
+    	if task.ready()==True:
+        	numdonenow = numdonenow + 1
+    return numdonenow
 
 def make_celery(app):
-    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
+    celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'], broker=app.config['BROKER_URL'])
     celery.conf.update(app.config)
     TaskBase = celery.Task
     class ContextTask(TaskBase):
@@ -59,19 +54,20 @@ def calc():
 
 @app.route("/task_ajax")
 def taskajax():
-    def generate():
+    def generate2():
         x = 0
-	print(numdone)
         yield "data:" + str(x) + "\n\n"
-        while numdone<len(tasks):
+        while checkhowmany()!=len(tasks):
             time.sleep(0.1)
-            if checkifanymore()==True:
-                x = int(numdone/len(tasks))
-                yield "data:" + str(x) + "\n\n"
-#    if numdone<len(tasks):            
-    return Response(generate(), mimetype="text/event-stream")    
-#    else:
-#        return redirect('/result')    
+	    howmany = checkhowmany()*100
+	    print("howmany : " + str(howmany))
+            x = int(howmany/len(tasks))
+	    print("x : " + str(x))
+            yield "data:" + str(x) + "\n\n"  
+    if checkhowmany() == len(tasks):          
+	return redirect(url_for('result'),code=302)
+    else:
+        return Response(generate2(), mimetype="text/event-stream")    
 
 @app.route("/home")
 def home():
@@ -80,16 +76,17 @@ def home():
 @app.route("/calculating", methods=['post'])
 def calculating():
     if request.method == 'POST':
-        numvms = 1
+#        numvms = 1
         start_angle = request.form['start_angle']
         stop_angle = request.form['stop_angle']
         num_angles = request.form['n_angles']
         num_levels = request.form['n_levels']
         num_nodes = request.form['n_nodes']
-	start(numvms)	
+#	start(numvms)	
         xml_files = generate_convert()#subprocess.Popen(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py'])
         print "PROC2: ", xml_files 
-        tasks = send_task(xml_files)
+	for line in xml_files:
+	        tasks.append(celery.send_task('running_AIRFOIL_arg_XML_SLAVEVM.work', (line,)))
 	print "LENGTH OF TASK: " + str(len(tasks))
 	print tasks
     return render_template('calc.html', start_angle=start_angle, stop_angle=stop_angle)
@@ -97,11 +94,15 @@ def calculating():
 
 @app.route("/result")
 def result():
-    angles=[0,1,2]
-    lift_forces=[5,8,9]
-    optimal_angle=2
-    lift_at_optimal_angle=3
-    return render_template('result.html', lift_forces=lift_forces, angles=angles, optimal_angle=optimal_angle, lift_at_optimal_angle=lift_at_optimal_angle)
+    angles=[]
+    lift_forces=[]
+    for task in tasks:
+	dicts = task.get(timeout=1)
+	angles.append(dicts['Angle'])
+	lift_forces.append(dicts['Lift'])
+   
+    
+    return render_template('result.html', lift_forces=lift_forces, angles=angles)
                       
 @app.route("/test/result/<task_id>")
 def show_result(task_id):
