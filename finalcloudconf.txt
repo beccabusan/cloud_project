@@ -12,7 +12,10 @@ write_files:
      mkdir /tmp/cproj
      cd /tmp/cproj
      git clone https://github.com/beccabusan/cloud_project.git
+     mkdir xml_files
      cd cloud_project
+     mkdir geo
+     mkdir msh
      celery --purge -A worker running_AIRFOIL_arg_XML_SLAVEVM -l info --autoscale=1,1
 
 runcmd:

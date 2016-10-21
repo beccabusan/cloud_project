@@ -12,7 +12,9 @@ flavor = "c1.small"
 private_net = 'g2015034-net_2'
 floating_ip_pool_name = 'public'
 floating_ip = None
-slave_name = str(sys.argv[1])
+slave_number = str(sys.argv[1])
+slavename = "slavevm"+str(slave_number)
+slavepwd = "slavepwd"+str(slave_number)
 master_ip = str(sys.argv[2])
 master_host = "mastervhost"
 
@@ -20,7 +22,7 @@ loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],username=env['OS_USERNAME'],password=env['OS_PASSWORD'],project_name=env['OS_PROJECT_NAME'],user_domain_name=env['OS_USER_DOMAIN_NAME'],project_domain_name=env['OS_PROJECT_DOMAIN_NAME'])
 
 #how to create custom userdata - export the variables inside each slave vm
-#userdata="export USER_NAME = slavevm"+slave_name+"\nexport USER_PWD = slavepwd" + slave_name + "\nexport MASTER_IP = "+master_ip+"\nexport MASTER_HOST = " + master_host + "\ncd /home/ubuntu/cloud_project\ngit pull\ncd flaskr/\ncelery --purge -A running_AIRFOIL_arg_XML_SLAVEVM worker -l info\n"
+userdata="#cloud-config\n\nwrite_files:\n - path: /tmp/slave_attr.txt\n   content: | \n     "+slavename+"\n     "+slavepwd+"\n     "+master_ip+"\n     "+master_host+"\n - path: /tmp/userscript.sh\n   content: | \n     mkdir /tmp/cproj\n     cd /tmp/cproj\n     git clone https://github.com/beccabusan/cloud_project.git\n     mkdir xml_files\n     cd cloud_project\n      mkdir geo\n      mkdir msh\n     celery --purge -A worker running_AIRFOIL_arg_XML_SLAVEVM -l info --autoscale=1,1\n\nruncmd:\n - sh /tmp/userscript.sh"
 
 sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
