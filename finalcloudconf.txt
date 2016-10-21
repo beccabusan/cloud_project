@@ -1,0 +1,19 @@
+#cloud-config
+
+write_files:
+ - path: /tmp/slave_attr.txt
+   content: | 
+     (name)
+     (pwd)
+     (masterip)
+     (masterhost)
+ - path: /tmp/userscript.sh
+   content: | 
+     mkdir /tmp/cproj
+     cd /tmp/cproj
+     git clone https://github.com/beccabusan/cloud_project.git
+     cd cloud_project
+     celery --purge -A worker running_AIRFOIL_arg_XML_SLAVEVM -l info --autoscale=1,1
+
+runcmd:
+ - sh /tmp/userscript.sh
