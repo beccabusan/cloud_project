@@ -10,7 +10,7 @@ def start(numvms):
 		print "Iniated slave number: "+ str(i)
 		vm = subprocess.Popen('python /home/ubuntu/cloud_project/starting_script.py ' + str(i) + " " + str(masterip), shell=True)				
 		vm.wait()
-		os.system('/home/ubuntu/cloud_project/./setupSLAVEVM.sh')
+#		os.system('/home/ubuntu/cloud_project/./setupSLAVEVM.sh')
 		i += 1
 	
 

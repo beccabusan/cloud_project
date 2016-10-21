@@ -76,13 +76,13 @@ def home():
 @app.route("/calculating", methods=['post'])
 def calculating():
     if request.method == 'POST':
-        numvms = 3
+#        numvms = 3
         start_angle = request.form['start_angle']
         stop_angle = request.form['stop_angle']
         num_angles = request.form['n_angles']
         num_levels = request.form['n_levels']
         num_nodes = request.form['n_nodes']
-	start(numvms)	
+#	start(numvms)	
         xml_files = generate_convert()#subprocess.Popen(['python','/home/ubuntu/cloud_project/generate_mesh_convert_xml_MASTERVM.py'])
         print "PROC2: ", xml_files 
 	for line in xml_files:
