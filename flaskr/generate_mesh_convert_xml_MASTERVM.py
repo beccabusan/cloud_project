@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import os, subprocess
 import swiftclient
-homepath = '/tmp/cproj/'
+homepath = '/home/ubuntu/'
 geofilepath = homepath+"cloud_project/geo"
 mshfilepath = homepath+"cloud_project/msh"
 xmlfilepath = homepath+"xml_files/" 
