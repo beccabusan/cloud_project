@@ -4,16 +4,23 @@ import re
 import os, sys, subprocess, time 
 from os import environ as env
 
-homepath = '/home/ubuntu/'
+homepath = '/tmp/cproj/'
 geofilepath = homepath + "cloud_project/geo"
 mshfilepath = homepath + "cloud_project/msh"
 xmldir = homepath + "xml_files/" 
 resultpath= os.getcwd() + "/results/drag_ligt.m"
+attr_filename = "/tmp/slave_attr.txt"
+attributes = []
 
-username = env['USER_NAME']
-userpwd = env['USER_PWD']
-masterip = env['MASTER_IP']
-mastervhost = env['MASTER_HOST']
+#slave vms gets their values themselves from the file
+if os.path.isfile(attr_filename):
+	for line in open(attr_filename)
+		attributes.append(line)
+
+	username = attributes[0]
+	userpwd = attributes[1]
+	masterip = attributes[2]
+	mastervhost = attributes[3]
 
 mainurl = "amqp://" + username + ":" + userpwd + "@" + masterip + "/" + mastervhost
 
